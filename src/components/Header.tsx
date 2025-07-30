@@ -2,11 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar, User, Bell, Menu, LogOut } from "lucide-react";
 
 interface HeaderProps {
-  user?: {
-    name: string;
-    email: string;
-    avatar?: string;
-  } | null;
+  user?: any;
   onSignIn: () => void;
   onSignOut: () => void;
 }
@@ -52,11 +48,17 @@ export const Header = ({ user, onSignIn, onSignOut }: HeaderProps) => {
               </Button>
               
               <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-muted">
-                <div className="h-8 w-8 rounded-full bg-gradient-primary flex items-center justify-center">
-                  <User className="h-4 w-4 text-white" />
-                </div>
+                {user.photoURL ? (
+                  <img src={user.photoURL} alt="Avatar" className="h-8 w-8 rounded-full" />
+                ) : (
+                  <div className="h-8 w-8 rounded-full bg-gradient-primary flex items-center justify-center">
+                    <span className="text-white text-sm font-medium">
+                      {user.displayName?.charAt(0) || user.email?.charAt(0)}
+                    </span>
+                  </div>
+                )}
                 <div className="text-sm">
-                  <p className="font-medium">{user.name}</p>
+                  <p className="font-medium">{user.displayName || 'Usuário'}</p>
                   <p className="text-muted-foreground text-xs">{user.email}</p>
                 </div>
               </div>

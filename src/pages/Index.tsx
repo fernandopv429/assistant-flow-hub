@@ -1,31 +1,26 @@
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 import { Header } from "@/components/Header";
 import { Dashboard } from "@/components/Dashboard";
 import { SchedulingForm } from "@/components/SchedulingForm";
+import { LeadsManager } from "@/components/CRM/LeadsManager";
+import { WhatsAppSettings } from "@/components/Automation/WhatsAppSettings";
+import { CalendarManager } from "@/components/Calendar/CalendarManager";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import heroImage from "@/assets/hero-dashboard.jpg";
-
-type User = {
-  name: string;
-  email: string;
-  avatar?: string;
-} | null;
 
 type View = "dashboard" | "scheduling";
 
 const Index = () => {
-  const [user, setUser] = useState<User>(null);
+  const { user, loading, signInWithGoogle, signOut } = useAuth();
   const [currentView, setCurrentView] = useState<View>("dashboard");
 
-  const handleSignIn = () => {
-    // Simular login Google OAuth - em produção seria integrado com Google
-    setUser({
-      name: "João Silva",
-      email: "joao.silva@email.com"
-    });
+  const handleSignIn = async () => {
+    await signInWithGoogle();
   };
 
-  const handleSignOut = () => {
-    setUser(null);
+  const handleSignOut = async () => {
+    await signOut();
     setCurrentView("dashboard");
   };
 
@@ -41,6 +36,17 @@ const Index = () => {
     console.log("Novo agendamento:", appointment);
     setCurrentView("dashboard");
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-2 text-muted-foreground">Carregando...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!user) {
     return (
@@ -136,16 +142,38 @@ const Index = () => {
       <Header user={user} onSignIn={handleSignIn} onSignOut={handleSignOut} />
       
       <main className="container mx-auto px-6 py-8">
-        {currentView === "dashboard" && (
-          <Dashboard onNewAppointment={handleNewAppointment} />
-        )}
-        
-        {currentView === "scheduling" && (
-          <SchedulingForm 
-            onBack={handleBackToDashboard}
-            onSchedule={handleScheduleAppointment}
-          />
-        )}
+        <Tabs defaultValue="dashboard" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-5">
+            <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+            <TabsTrigger value="leads">Leads</TabsTrigger>
+            <TabsTrigger value="calendario">Agenda</TabsTrigger>
+            <TabsTrigger value="whatsapp">WhatsApp</TabsTrigger>
+            <TabsTrigger value="agendamento">Agendar</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="dashboard">
+            <Dashboard onNewAppointment={handleNewAppointment} />
+          </TabsContent>
+          
+          <TabsContent value="leads">
+            <LeadsManager />
+          </TabsContent>
+          
+          <TabsContent value="calendario">
+            <CalendarManager />
+          </TabsContent>
+          
+          <TabsContent value="whatsapp">
+            <WhatsAppSettings />
+          </TabsContent>
+          
+          <TabsContent value="agendamento">
+            <SchedulingForm 
+              onBack={handleBackToDashboard}
+              onSchedule={handleScheduleAppointment}
+            />
+          </TabsContent>
+        </Tabs>
       </main>
     </div>
   );
