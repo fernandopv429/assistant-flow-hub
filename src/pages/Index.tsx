@@ -8,6 +8,7 @@ import { WhatsAppSettings } from "@/components/Automation/WhatsAppSettings";
 import { CalendarManager } from "@/components/Calendar/CalendarManager";
 import OpenAISettings from "@/components/Integrations/OpenAISettings";
 import DialogflowSettings from "@/components/Integrations/DialogflowSettings";
+import TwilioSettings from "@/components/Integrations/TwilioSettings";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import heroImage from "@/assets/hero-dashboard.jpg";
@@ -219,11 +220,12 @@ const Index = () => {
       
       <main className="container mx-auto px-6 py-8">
         <Tabs defaultValue="dashboard" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-7">
+          <TabsList className="grid w-full grid-cols-8">
             <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
             <TabsTrigger value="leads">Leads</TabsTrigger>
             <TabsTrigger value="calendario">Agenda</TabsTrigger>
             <TabsTrigger value="whatsapp">WhatsApp</TabsTrigger>
+            <TabsTrigger value="twilio">Twilio</TabsTrigger>
             <TabsTrigger value="openai">OpenAI</TabsTrigger>
             <TabsTrigger value="dialogflow">Dialogflow</TabsTrigger>
             <TabsTrigger value="agendamento">Agendar</TabsTrigger>
@@ -243,6 +245,10 @@ const Index = () => {
           
           <TabsContent value="whatsapp">
             <WhatsAppSettings />
+          </TabsContent>
+          
+          <TabsContent value="twilio">
+            <TwilioSettings />
           </TabsContent>
           
           <TabsContent value="openai">
