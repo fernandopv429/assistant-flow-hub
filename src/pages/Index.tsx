@@ -6,6 +6,8 @@ import { SchedulingForm } from "@/components/SchedulingForm";
 import { LeadsManager } from "@/components/CRM/LeadsManager";
 import { WhatsAppSettings } from "@/components/Automation/WhatsAppSettings";
 import { CalendarManager } from "@/components/Calendar/CalendarManager";
+import OpenAISettings from "@/components/Integrations/OpenAISettings";
+import DialogflowSettings from "@/components/Integrations/DialogflowSettings";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import heroImage from "@/assets/hero-dashboard.jpg";
@@ -217,11 +219,13 @@ const Index = () => {
       
       <main className="container mx-auto px-6 py-8">
         <Tabs defaultValue="dashboard" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-7">
             <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
             <TabsTrigger value="leads">Leads</TabsTrigger>
             <TabsTrigger value="calendario">Agenda</TabsTrigger>
             <TabsTrigger value="whatsapp">WhatsApp</TabsTrigger>
+            <TabsTrigger value="openai">OpenAI</TabsTrigger>
+            <TabsTrigger value="dialogflow">Dialogflow</TabsTrigger>
             <TabsTrigger value="agendamento">Agendar</TabsTrigger>
           </TabsList>
           
@@ -239,6 +243,14 @@ const Index = () => {
           
           <TabsContent value="whatsapp">
             <WhatsAppSettings />
+          </TabsContent>
+          
+          <TabsContent value="openai">
+            <OpenAISettings />
+          </TabsContent>
+          
+          <TabsContent value="dialogflow">
+            <DialogflowSettings />
           </TabsContent>
           
           <TabsContent value="agendamento">
